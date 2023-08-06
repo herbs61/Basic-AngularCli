@@ -1,14 +1,45 @@
 <h1>Welcome to {{hotelName}}</h1>
 <div [hidden]="hideRooms">
   Number of Rooms:
-  <div [innerText]="numberofRooms"></div>
+  <div  [ngStyle]="{'color': rooms.availableRooms ? 'green' : 'red'}" [innerText]="numberofRooms">
+  </div>
 </div>
 
 
 {{ rooms?.availableRooms ?? 'No rooms'}}
 
-<div *ngIf="rooms?.availableRooms">
+
+<!-- {{ roomList | json}} -->
+
+
+<div *ngIf="rooms.availableRooms > 0">
   Rooms List
+  <!-- {{ roomList}} -->
+  <table>
+    <tr>
+      <th>Index</th>
+      <th>Even/odd</th>
+      <th>Room Number</th>
+      <th>Room Type</th>
+      <th>Room Price</th>
+      <th>Room Amenities</th>
+      <th>Checkin Time</th>
+    </tr>
+
+    <tr
+     [ngClass]="e ? 'even': 'odd'"
+    *ngFor="let room of roomList | slice: 0:3; let e=even; let o=odd; let i=index">
+      <td>{{ i | percent }}</td>
+      <td>{{ e ? "Even": "odd" }}</td>
+      <td>{{ room.roomNumber}}</td>
+      <td>{{ room.roomType }}</td>
+      <td>{{ room.price | currency : 'USD' }}</td>
+      <td>{{ room.amenities | titlecase }}</td>
+      <td>{{ room.checkinTime | date: 'dd/MM/yyy' }}</td>
+
+
+    </tr>
+  </table>
 </div>
 
 
